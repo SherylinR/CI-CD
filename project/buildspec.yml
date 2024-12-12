@@ -11,16 +11,14 @@ phases:
       python: 3.11
   pre_build:
     commands:
-      - echo "Installing dependencies..."
-      - pip install -r CI-CD/project/requirements.txt
+      - pip install -r project/requirements.txt
   build:
     commands:
-      - echo "Running tests..."
-      - cd CI-CD/project/
+      - cd project/
       - echo "Building Docker image..."
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest" .
-      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:latest"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/my-python-flask-service:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/my-python-flask-service:latest"
   post_build:
     commands:
       - echo "Build completed successfully!"
@@ -28,4 +26,3 @@ artifacts:
   files:
     - '**/*'
   base-directory: ../project
-
